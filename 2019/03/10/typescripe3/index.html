@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svgd?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简单工厂模式特点：就是把同类型产品对象的创建集中到一起，通过工厂来创建，添加新产品时只需加到工厂里即可，也就是把变化封装起来，同时还可以隐藏产品的一些细节。 用处：要new多个同一类型对象时可以考虑使用简单工厂。 注意：对象需要继承自同一个接口 我们来举例一下枪工厂：  enum GunType{ AK, M4}interface Shootable {     shoot(); }abstrac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript设计模式的工厂模式">
+<meta property="og:url" content="http://yoursite.com/2019/03/10/typescripe3/index.html">
+<meta property="og:site_name" content="大冰">
+<meta property="og:description" content="简单工厂模式特点：就是把同类型产品对象的创建集中到一起，通过工厂来创建，添加新产品时只需加到工厂里即可，也就是把变化封装起来，同时还可以隐藏产品的一些细节。 用处：要new多个同一类型对象时可以考虑使用简单工厂。 注意：对象需要继承自同一个接口 我们来举例一下枪工厂：  enum GunType{ AK, M4}interface Shootable {     shoot(); }abstrac">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-10T16:36:09.608Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TypeScript设计模式的工厂模式">
+<meta name="twitter:description" content="简单工厂模式特点：就是把同类型产品对象的创建集中到一起，通过工厂来创建，添加新产品时只需加到工厂里即可，也就是把变化封装起来，同时还可以隐藏产品的一些细节。 用处：要new多个同一类型对象时可以考虑使用简单工厂。 注意：对象需要继承自同一个接口 我们来举例一下枪工厂：  enum GunType{ AK, M4}interface Shootable {     shoot(); }abstrac">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/10/typescripe3/">
+
+
+
+
+
+  <title>TypeScript设计模式的工厂模式 | 大冰</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大冰</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">可乐要加冰 | 前端要走心</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            目录
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            个人简历
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/10/typescripe3/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiabing Yu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大冰">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TypeScript设计模式的工厂模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-10T00:34:38+08:00">
+                2019-03-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h2><p><strong>特点</strong>：<strong>就是把同类型产品对象的创建集中到一起，通过工厂来创建，添加新产品时只需加到工厂里即可，也就是把变化封装起来，同时还可以隐藏产品的一些细节。</strong></p>
+<p><strong>用处</strong>：<strong>要new多个同一类型对象时可以考虑使用简单工厂。</strong></p>
+<p><strong>注意</strong>：<strong>对象需要继承自同一个接口</strong></p>
+<p>我们来举例一下枪工厂：</p>
+<blockquote>
+<p><code>enum GunType{
+AK, M4}</code><br><code>interface Shootable {     shoot(); }</code><br><code>abstract class Gun implements Shootable {
+//抽象产品 - 枪</code><br><a id="more"></a><br>    <code>abstract     shoot();</code><br><code>}</code><br>//创建两个类，一个AK47 、 一个M4A1 并且继<br>shoot(){ console.log(‘ak47 shoot’) }<code>承抽象类Gun</code>class AK47 extends Gun {<br><code>}</code><br><code>class M4A1 extends Gun { shoot(){ console.log(&#39;m4a1 shoot&#39;) }</code><br><code>}</code><br>//现在我们来创建一个简单工厂<br><code>class GunFactory {</code><br><code>static createGun (type: GunType) : Gun {</code><br><code>switch (type) {</code><br><code>case GunType.AK:</code><br><code>return new AK47();</code><br><code>case GunType.M4:</code><br><code>return new M4A1();</code><br><code>default: throw Error(&#39; 还不支持这只枪&#39;);</code><br><code>}</code><br> <code>}</code><br><code>}</code><br>//接下来我们来调用我们想要用的枪看看<br><code>GunFactory.createGun (GunType.AK).shoot();</code><br><code>GunFactory.createGun (GunType.M4).shoot();</code><br>//输出<br>ak47 shoot;<br>m4a1 shoot;</p>
+</blockquote>
+<p>上面代码GunFactory工厂就是根据类型来创建不同的产品，使用的时候只需要引入这个工厂和接口即可。比如加个AWM：<br>直接<br><code>class AWM extends Gun { shoot(){ console.log(&#39;AWM shoot&#39;) } }</code><br>然后在工厂里面上返回一个<code>new AWM()</code>。</p>
+<h2 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h2><p>特点：把工厂抽象出来，让子工厂来决定怎么生产产品，每个产品都由自己的工厂生产。</p>
+<p>用处：当产品对象需要进行不同的加工时可以考虑工厂方法。</p>
+<p>注意：这不是所谓的简单工厂的升级版，两者有不同的应用场景。</p>
+<p>我们继续写一个枪工厂：</p>
+<p><code>interface Shootable{ shoot(); }</code><br><code>abstract class Gun implements Shootable { abstract shoot(); }</code><br><code>class AK47 extends Gun{ shoot () { console.log(&#39;ak47 shoot&#39;) }</code><br><code>class M4A1 extends Gun { shoot () { console.log (&#39;m4a1 shoot &#39;) } }</code><br>//抽象枪工厂<br><code>abstract class GunFactory { abstract create():Gun; }</code><br>//创建ak47工厂<br><code>class AK47Factory extends GunFactory {</code><br><code>create () : Gun {</code><br><code>let gun = new AK47();</code>//生产ak47<br><code>console.log(&#39;produce ak47 gun&#39;);</code><br><code>this.clean(gun);</code> //清理工作<br><code>this.applyTungOil(gun);</code>//ak47涂上桐油<br><code>return gun;</code><br><code>}</code><br><code>private clean ( gun : Gun) { console.log(&#39;清理ak&#39;);}</code><br><code>private applyTungOil(gun : Gun) { console.log(&#39;涂上桐油&#39;);}</code><br><code>}</code><br>// 创建m4工厂<br><code>class M4A1Factory extends GunFactory {</code><br><code>create ():Gun {</code><br>//生产m4<br><code>let gun = new M4A1();</code><br><code>console.log(&#39;produce m4a1 gun&#39;);</code><br><code>this.clean(gun);</code> //同样清理m4<br><code>this.sprayPaint ( gun) ;</code> //M4是土豪金<br><code>return gun;</code><br><code>}</code><br><code>private class ( gun : Gun) { console.log(&#39;清理m4‘);}</code><br><code>private class ( gun : Gun) { console.log(‘涂上土豪金&#39;);}</code><br><code>}</code><br>//调用ak和m4工厂<br><code>let ak47 = new AK47Factory().create();</code><br><code>ak47.shoot();</code><br>//输出<br>produce ak47 gun; 清理ak；涂上桐油；<br><code>let m4a1 = new M4A1Factory().create();</code><br><code>m4a1.shoot();</code><br>//输出<br>produce m4a1 gun; 清理m4；涂上土豪金；</p>
+<p><strong>可以看到ak和m4在生产出来后的处理不一样，ak涂桐油，m4喷土豪金。在简单工厂比较难做到，所以就每个产品都弄个工厂来封装各自己的生产过程。加一个awm就直接加个产品和产品工厂就好了。</strong><br>缺点：增加一个产品就需要多加两个类，增加了代码的复杂性。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/03/Design-Pattern/" rel="next" title="设计模式——单例模式">
+                <i class="fa fa-chevron-left"></i> 设计模式——单例模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/17/typescript/" rel="prev" title="TypeScript设计模式之观察者模式">
+                TypeScript设计模式之观察者模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Jiabing Yu">
+            
+              <p class="site-author-name" itemprop="name">Jiabing Yu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单工厂模式"><span class="nav-number">1.</span> <span class="nav-text">简单工厂模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂方法模式"><span class="nav-number">2.</span> <span class="nav-text">工厂方法模式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiabing Yu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
