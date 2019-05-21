@@ -79,19 +79,17 @@
 
 
 
-<meta name="description" content="在学习类型之前，我们先来看一下基础的类型运算。var num=32； num=“This is String”； 这样是不是觉得JavaScript好简单，带着疑问看下下面的题。当32+32等于64，这样是简单的数字运算。当 “32”+32 会等于多少呢？答案会是64。对的他们是字符串拼接！如果是 “32”-32 呢？它会等于0。为什么呢？因为字符串已经被默认转化为数字类型 进行运算。由此我们得出">
+<meta name="description" content="说到深拷贝，大家应该第一反应就是这两个方法：JSON.parse() 和 JSON.stringify()当然，这种方法需要保证对象是JSON的安全，所以只适用于部分情况。话不多说，直接上码：123456789101112131415	function deepCopy(obj)｛    //判断是否是简单数据类型    if(typeof obj == &quot;object&quot;) &amp;#123;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript——类型（一）">
-<meta property="og:url" content="http://yoursite.com/2019/02/04/javascript-1/index.html">
+<meta property="og:title" content="手写深拷贝">
+<meta property="og:url" content="http://yoursite.com/2019/05/21/deepCopy/index.html">
 <meta property="og:site_name" content="大冰">
-<meta property="og:description" content="在学习类型之前，我们先来看一下基础的类型运算。var num=32； num=“This is String”； 这样是不是觉得JavaScript好简单，带着疑问看下下面的题。当32+32等于64，这样是简单的数字运算。当 “32”+32 会等于多少呢？答案会是64。对的他们是字符串拼接！如果是 “32”-32 呢？它会等于0。为什么呢？因为字符串已经被默认转化为数字类型 进行运算。由此我们得出">
+<meta property="og:description" content="说到深拷贝，大家应该第一反应就是这两个方法：JSON.parse() 和 JSON.stringify()当然，这种方法需要保证对象是JSON的安全，所以只适用于部分情况。话不多说，直接上码：123456789101112131415	function deepCopy(obj)｛    //判断是否是简单数据类型    if(typeof obj == &quot;object&quot;) &amp;#123;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/02/04/javascript-1/newYear.jpg">
-<meta property="og:updated_time" content="2019-02-16T10:21:41.237Z">
+<meta property="og:updated_time" content="2019-05-21T05:37:26.237Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript——类型（一）">
-<meta name="twitter:description" content="在学习类型之前，我们先来看一下基础的类型运算。var num=32； num=“This is String”； 这样是不是觉得JavaScript好简单，带着疑问看下下面的题。当32+32等于64，这样是简单的数字运算。当 “32”+32 会等于多少呢？答案会是64。对的他们是字符串拼接！如果是 “32”-32 呢？它会等于0。为什么呢？因为字符串已经被默认转化为数字类型 进行运算。由此我们得出">
-<meta name="twitter:image" content="http://yoursite.com/2019/02/04/javascript-1/newYear.jpg">
+<meta name="twitter:title" content="手写深拷贝">
+<meta name="twitter:description" content="说到深拷贝，大家应该第一反应就是这两个方法：JSON.parse() 和 JSON.stringify()当然，这种方法需要保证对象是JSON的安全，所以只适用于部分情况。话不多说，直接上码：123456789101112131415	function deepCopy(obj)｛    //判断是否是简单数据类型    if(typeof obj == &quot;object&quot;) &amp;#123;">
 
 
 
@@ -121,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/02/04/javascript-1/">
+  <link rel="canonical" href="http://yoursite.com/2019/05/21/deepCopy/">
 
 
 
 
 
-  <title>JavaScript——类型（一） | 大冰</title>
+  <title>手写深拷贝 | 大冰</title>
   
 
 
@@ -244,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/04/javascript-1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/21/deepCopy/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiabing Yu">
@@ -261,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">JavaScript——类型（一）</h1>
+          <h1 class="post-title" itemprop="name headline">手写深拷贝</h1>
         
 
         <div class="post-meta">
@@ -273,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-04T23:08:57+08:00">
-                2019-02-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-21T13:23:38+08:00">
+                2019-05-21
               </time>
             
 
@@ -311,20 +309,7 @@
       
 
       
-        <p>在学习类型之前，我们先来看一下基础的类型运算。<br><strong>var num=32； num=“This is String”；</strong> 这样是不是觉得JavaScript好简单，带着疑问看下下面的题。<br>当32+32等于64，这样是简单的数字运算。<br>当 <strong>“32”+32</strong> 会等于多少呢？答案会是64。对的他们是字<strong>符串拼接</strong>！<br>如果是 <strong>“32”-32</strong> 呢？它会等于0。为什么呢？因为字符串已经被默认转化为数字类型 进行运算。<br>由此我们得出：<strong>当字符串与数字如果进行加法运算，那它们将进行字符串拼接。如果字符串与数字进行减法运算，就会把字符串转化为int类型，praseInt（‘32’）=32，然后进行运算。（如果字符串不能转化成数字，那么结果将会是NaN,NaN与任何数运算都会等于NaN）</strong><br><a id="more"></a><br><strong>javascript有两大种类型：</strong></p>
-<h2 id="原始类型"><a href="#原始类型" class="headerlink" title="原始类型"></a>原始类型</h2><ul>
-<li>Number</li>
-<li>String</li>
-<li>Null</li>
-<li>boolean</li>
-<li>undefined</li>
-</ul>
-<h2 id="其他类型"><a href="#其他类型" class="headerlink" title="其他类型"></a>其他类型</h2><ul>
-<li>Object 也叫对象类型。那么JavaScript的函数、数组、日期等也是对象类型。</li>
-</ul>
-<pre><code>彩蛋： 巧用+/-规则转化类型，定义一个变量num，当你想要一个数字类型 **（num-0）** num减去一个零；
-      想要一个字符串 **（num+&quot; &quot;）** num加上一个空字符串即可。
-</code></pre><p><div align="center"><a href="https://blog.csdn.net/qq_41308489/article/details/86764563" target="_blank" rel="noopener">祝大家猪年快乐！诸事顺利</a></div><br><img src="/2019/02/04/javascript-1/newYear.jpg" height="50%" width="50%"></p>
+        <p>说到深拷贝，大家应该第一反应就是这两个方法：<strong>JSON.parse()</strong> 和 <strong>JSON.stringify()</strong><br>当然，这种方法需要保证对象是JSON的安全，所以只适用于部分情况。<br><strong>话不多说，直接上码：</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepCopy</span>(<span class="params">obj</span>)｛</span></span><br><span class="line"><span class="function">    //判断是否是简单数据类型</span></span><br><span class="line"><span class="function">    <span class="title">if</span>(<span class="params">typeof obj == <span class="string">"object"</span></span>) </span>&#123;</span><br><span class="line">        <span class="comment">//复杂数据类型</span></span><br><span class="line">        <span class="keyword">var</span> result = obj.constructor == <span class="built_in">Array</span> ? [] : &#123;&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> obj) &#123;</span><br><span class="line">            result[i] = <span class="keyword">typeof</span> obj[i] == <span class="string">"object"</span> ? deepCopy(obj[i]) : obj[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//简单数据类型直接赋值</span></span><br><span class="line">        <span class="keyword">var</span> result = obj;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">｝</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -349,8 +334,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/30/hello-world-1/" rel="next" title="新的一年 新的开始">
-                <i class="fa fa-chevron-left"></i> 新的一年 新的开始
+              <a href="/2019/03/17/typescript/" rel="next" title="TypeScript设计模式之观察者模式">
+                <i class="fa fa-chevron-left"></i> TypeScript设计模式之观察者模式
               </a>
             
           </div>
@@ -358,10 +343,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/02/07/javascript-2/" rel="prev" title="JavaScript——类型（二）">
-                JavaScript——类型（二） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -413,17 +394,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -467,22 +439,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原始类型"><span class="nav-number">1.</span> <span class="nav-text">原始类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他类型"><span class="nav-number">2.</span> <span class="nav-text">其他类型</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
