@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svgd?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="创建库的步骤在MongoDB中，集合(`collections`)代表的就是MySQL里的表。 文档(`documents`)代表的是就是MySQL里的行。 创建库时, use 库名, 就是进入一个数据库，如果没有这个数据库，用use进入这个库后，插入一条数据，便可以创建了这个库并添加一条数据。 炼气期:（1）查询数据 查询数据库，show dbs  增加一条数据, db.表名.insert({&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB修仙录">
+<meta property="og:url" content="http://yoursite.com/2022/04/23/technologySharing-5/index.html">
+<meta property="og:site_name" content="大冰">
+<meta property="og:description" content="创建库的步骤在MongoDB中，集合(`collections`)代表的就是MySQL里的表。 文档(`documents`)代表的是就是MySQL里的行。 创建库时, use 库名, 就是进入一个数据库，如果没有这个数据库，用use进入这个库后，插入一条数据，便可以创建了这个库并添加一条数据。 炼气期:（1）查询数据 查询数据库，show dbs  增加一条数据, db.表名.insert({&amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2022-04-23T11:24:42.589Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MongoDB修仙录">
+<meta name="twitter:description" content="创建库的步骤在MongoDB中，集合(`collections`)代表的就是MySQL里的表。 文档(`documents`)代表的是就是MySQL里的行。 创建库时, use 库名, 就是进入一个数据库，如果没有这个数据库，用use进入这个库后，插入一条数据，便可以创建了这个库并添加一条数据。 炼气期:（1）查询数据 查询数据库，show dbs  增加一条数据, db.表名.insert({&amp;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2022/04/23/technologySharing-5/">
+
+
+
+
+
+  <title>MongoDB修仙录 | 大冰</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大冰</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">可乐要加冰 | 前端要走心</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            目录
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            个人简历
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/04/23/technologySharing-5/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiabing Yu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大冰">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MongoDB修仙录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-04-23T19:17:30+08:00">
+                2022-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="创建库的步骤"><a href="#创建库的步骤" class="headerlink" title="创建库的步骤"></a>创建库的步骤</h2><pre><code>在MongoDB中，集合(`collections`)代表的就是MySQL里的表。
+文档(`documents`)代表的是就是MySQL里的行。
+</code></pre><p>创建库时, <code>use 库名</code>, 就是进入一个数据库，如果没有这个数据库，用<code>use</code>进入这个库后，插入一条数据，便可以创建了这个库并添加一条数据。</p>
+<h2 id="炼气期"><a href="#炼气期" class="headerlink" title="炼气期:"></a>炼气期:</h2><h3 id="（1）查询数据"><a href="#（1）查询数据" class="headerlink" title="（1）查询数据"></a>（1）查询数据</h3><ol>
+<li><p>查询数据库，<code>show dbs</code></p>
+</li>
+<li><p>增加一条数据, <code>db.表名.insert({&quot;name&quot;:&quot;dabing&quot;, &quot;age&quot;: 18})</code></p>
+</li>
+<li><p>查询数据库里的集合(也就是表), <code>show collections</code></p>
+</li>
+<li><p>查询集合的数据,<code>db.表名.find()</code></p>
+</li>
+</ol>
+<a id="more"></a>
+<ol start="5">
+<li><p><code>db.表名.find({age:18})</code> 查询指定age等于18的数据</p>
+</li>
+<li><p><code>db.表名.find({age:{$gt:18}})</code> 查询age高于18的数据</p>
+</li>
+<li><p><code>db.表名.find({age:{$gte:18, $lte:20}})</code>查询age&gt;=18且age&lt;=20的数据</p>
+</li>
+<li><p><code>db.表名.find({name:/da/})</code> 模糊查询name包含da的数据</p>
+</li>
+<li><p><code>db.表名.find({}, {name:1,age:1})</code> 查询指定列的数据，这条语句就是只显示<code>name</code>列和<code>age</code>列,花括号<code>{}</code>里面还可以加条件</p>
+</li>
+<li><p><code>db.表名.find().sort({age:1})</code> 查询按照age排序，<code>1</code>升序 <code>-1</code>降序</p>
+</li>
+<li><p><code>db.表名.find().limit(5)</code> 查询前5条数据</p>
+</li>
+<li><p><code>db.表名.find().skip(10)</code> 查询10条以后的数据，这个结合<code>limit()</code>适合做<code>分页查询</code>。</p>
+</li>
+<li><p><code>db.表名.find().count()</code> 查询表里有多少条数据，可以加条件就针对条件的统计多少条数据，<code>db.表名.find({age:{$gt:18}}).count()</code>统计年龄大于18的数据多少条</p>
+</li>
+<li><p><code>db.表名.find({$or:[{age:18}, {age:20}]})</code> 查询age=18或者age=20的数据</p>
+</li>
+<li><p><code>db.user.find({name:&quot;jobin&quot;}).explain(&quot;executionStats&quot;)</code>   “explain(“executionStats”)” 分析查询速度。</p>
+</li>
+</ol>
+<h3 id="（2）插入数据"><a href="#（2）插入数据" class="headerlink" title="（2）插入数据"></a>（2）插入数据</h3><ol>
+<li><code>db.表名.insert({name:&#39;jobin&#39;})</code>  若插入的数据主键已经存在，则会抛 org.springframework.dao.DuplicateKeyException 异常，提示主键重复，不保存当前数据。</li>
+<li><code>db.表名.insertOne({age:18})</code> `插入一条数据</li>
+<li><code>db.表名.insertMany([{age:18}, {age:20}])</code> 插入多条数据</li>
+</ol>
+<h3 id="（3）更新数据"><a href="#（3）更新数据" class="headerlink" title="（3）更新数据"></a>（3）更新数据</h3><ol>
+<li><code>db.表名.update({&#39;title&#39;:&#39;MongoDB 教程&#39;},{$set:{&#39;title&#39;:&#39;MongoDB&#39;}})</code> 修改第一条发现的数据</li>
+<li><code>db.表名.update({&#39;title&#39;:&#39;MongoDB 教程&#39;},{$set:{&#39;title&#39;:&#39;MongoDB&#39;}}, {multi: true})</code> 修改发现的多条数据</li>
+</ol>
+<h3 id="（4）删除数据"><a href="#（4）删除数据" class="headerlink" title="（4）删除数据"></a>（4）删除数据</h3><ol>
+<li><code>db.collections(表名/集合).remove({name:&#39;jobin&#39;},justOne:1)</code> 删除一条<code>name=jobin</code>的数据，<code>justOne:true</code>可选，不选就是删除匹配条件的全部数据。</li>
+<li><code>remove()</code>方法已经过时了，现在官方推荐使用 <code>deleteOne()</code> 和 <code>deleteMany()</code>方法。</li>
+<li><code>db.collections.deleteMany({})</code>删除集合下全部文档(数据)</li>
+<li><code>db.collections.deleteMany({ name : &quot;A&quot; })</code>删除 <code>name = A</code> 的全部文档(数据)</li>
+<li><code>db.collections.deleteOne( { name: &quot;D&quot; } )</code>删除<code>name = D</code>的一个文档(数据)</li>
+</ol>
+<h2 id="筑基期"><a href="#筑基期" class="headerlink" title="筑基期:"></a>筑基期:</h2><pre><code>下面的collections是集合名或表名。
+</code></pre><h3 id="（1）索引"><a href="#（1）索引" class="headerlink" title="（1）索引"></a>（1）索引</h3><pre><code>注意在 3.0.0 版本前创建索引方法为 db.collection.ensureIndex
+()，之后的版本使用了 db.collection.createIndex() 方法，
+ensureIndex() 还能用，但只是 createIndex() 的别名。
+</code></pre><ol>
+<li><code>db.collections.ensureIndex({&quot;username&quot;: 1})</code> 创建索引</li>
+<li><code>db.collections.ensureIndex({&quot;username&quot;:1, age: -1})</code> 创建复合索引，<code>1和-1</code>还是代表升序和降序的意思。第一个参数是<code>username</code>，索引会基于<code>username</code>，当你单独查询<code>username</code>时，也可以命中索引。</li>
+<li><code>db.collections.getIndexes()</code> 获取当前集合的索引</li>
+<li><code>db.表名.dropIndex({&quot;username&quot;: 1})</code> 删除索引</li>
+</ol>
+<h5 id="新的创建索引方法"><a href="#新的创建索引方法" class="headerlink" title="新的创建索引方法"></a>新的创建索引方法</h5><ol>
+<li><code>db.collections.createIndex({&quot;username&quot;: 1})</code> 创建索引</li>
+<li><code>db.collections.createIndex({&quot;username&quot;:1, age: -1})</code> 创建复合索引，<code>1和-1</code>还是代表升序和降序的意思。第一个参数是<code>username</code>，索引会基于<code>username</code>，当你单独查询<code>username</code>时，也可以命中索引。</li>
+<li><code>db.values.createIndex({&quot;username&quot;:1, age: -1}, {background: true})</code>在后台创建索引：建索引过程会阻塞其它数据库操作，background可指定以后台方式创建索引，即增加 “background” 可选参数。 “background” 默认值为false。</li>
+</ol>
+<h3 id="（2）唯一索引"><a href="#（2）唯一索引" class="headerlink" title="（2）唯一索引"></a>（2）唯一索引</h3><ol>
+<li><code>db.collections.ensureIndex({&quot;username&quot;: 1}, {&quot;unique&quot;: true})</code> 创建唯一索引，关键字<code>unique</code>。唯一索引相当于主键，<code>username</code>列被创建了唯一索引，那么<code>username</code>的值不能存在重复，当插入一条<code>username</code>的数据时和之前的有重复值的话，会抛出错误。</li>
+</ol>
+<h3 id="（3）权限"><a href="#（3）权限" class="headerlink" title="（3）权限"></a>（3）权限</h3><h5 id="创建超级管理用户"><a href="#创建超级管理用户" class="headerlink" title="创建超级管理用户:"></a>创建超级管理用户:</h5><ol>
+<li><p>第一步: </p>
+<ol>
+<li><code>use admin</code> 进入admin系统数据库</li>
+<li><code>db.createUser({user: &#39;admin&#39;, pwd: &#39;123456&#39;, roles:[{role: &#39;root&#39;, db: &#39;admin&#39;}]})</code> 创建超级用户，账户为admin,密码为123456 规则为超级管理员，对应的数据库是admin。</li>
+</ol>
+</li>
+<li><p>第二步: </p>
+<ol>
+<li>找到MongoDB的配置文件(mongod.cfg),进行备份。`</li>
+<li>本人的配置路径是:`D:\after-tools\mongoDB\server\bin</li>
+<li>然后用对mongod.cfg文件添加开启权限验证语句:<code>security: authorization: enabled</code></li>
+<li>现在如果自己连接mongo的话,是无法查看到数据库</li>
+<li>然后再cmd输入<code>services.msc</code>对MongoDB服务进行重启，就可以更新好配置</li>
+</ol>
+</li>
+<li>第三步:<ol>
+<li>尝试直接Mongo直接连接数据库，进入后将无法查看到数据库</li>
+<li>如果想连接上数据库有以下方式连接:</li>
+<li><code>mongo admin -u 用户名 -p 密码</code> 或者 <code>mongo 127.0.0.1:27017/test -u 用户名 -p 密码</code></li>
+<li><code>mongo admin</code> 直接进入库, 然后再验证 <code>db.auth(&#39;用户名&#39;, &#39;密码&#39;)</code></li>
+</ol>
+</li>
+</ol>
+<h4 id="创建数据库管理用户"><a href="#创建数据库管理用户" class="headerlink" title="创建数据库管理用户"></a>创建数据库管理用户</h4><pre><code>也就是普通用户，允许这个用户只能操作某个库的权限
+
+  1. `user testdb` 进入testdb数据库
+  2. `show users` 查看是否已经创建了用户
+  3. `db.createUser({user: &apos;dabing&apos;, pwd: &apos;123456&apos;, roles:[{role: &apos;dbOwner&apos;, db: &apos;testdb&apos;}]})` 创建普通用户，账户为dabing,密码为123456，规则为数据库管理角色，对应的数据库是testdb。
+  4. `db.dropUser(&apos;用户名&apos;)` 删除此用户的权限
+  5. 登录操作跟上述一样。
+</code></pre><h2 id="结丹期"><a href="#结丹期" class="headerlink" title="结丹期"></a>结丹期</h2><h3 id="（1）Aggregation-管道操作符与表达式"><a href="#（1）Aggregation-管道操作符与表达式" class="headerlink" title="（1）Aggregation 管道操作符与表达式"></a>（1）Aggregation 管道操作符与表达式</h3><ol>
+<li><p>管道操作符：</p>
+<ol>
+<li><code>$project</code>: 增加、删除、重命名字段</li>
+<li><code>$match</code>: 条件匹配，只满足条件的文档才能进入下一阶段</li>
+<li><code>$limit</code>: 限制结果的数量</li>
+<li><code>$skip</code>: 跳过文档的数量</li>
+<li><code>$sort</code>: 条件排序。</li>
+<li><code>$group</code>: 条件组合结果、统计</li>
+<li><code>$lookup</code>: 用以引入其他集合的数据（表关联查询）</li>
+</ol>
+</li>
+<li><p><code>db.order.aggregate([{$project:{order_id:1, uid: 1}}])</code>: 只查询指定字段</p>
+</li>
+<li><code>&gt; db.order.aggregate([{$project:{order_id:1, all_price: 1}}, {$match: {all_price: {$gt:50}}}])</code>: 查询指定字段并all_price&gt;50</li>
+<li><code>db.order.aggregate([{$group:{_id: &quot;$order_id&quot;, total: {$sum:&quot;$all_price&quot;}}}])</code>: 统计总价格并分组</li>
+<li><code>db.order.aggregate([{$project:{order_id:1, all_price: 1}}, {$match: {all_price: {$gt:50}}}, {$sort:{&quot;order_id&quot;: -1}}])</code>: 降序</li>
+<li><code>db.order.aggregate([{$project:{order_id:1, all_price: 1}}, {$match: {all_price: {$gt:50}}}, {$limit:1}])</code>:显示一条数据</li>
+<li><code>db.order.aggregate([{$project:{order_id:1, all_price: 1}}, {$match: {all_price: {$gt:50}}}, {$skip:1}])</code>: 跳过一条数据</li>
+</ol>
+<h4 id="lookup表关联"><a href="#lookup表关联" class="headerlink" title="$lookup表关联"></a><code>$lookup</code>表关联</h4><p><code>db.order.aggregate([{$lookup:{ from: &quot;order_item&quot;, localField:&quot;order_id&quot;, foreignField:&quot;order_id&quot;, as:&quot;items&quot;}}])</code>:<br><code>from</code>: ‘要关联的表’, <code>localField</code>: ‘当前表的字段’, <code>foreignField</code>: ‘关联表的字段’, <code>as</code>: ‘一个放查询到关联表数据的数组’</p>
+<p><code>db.order.aggregate([{$lookup:{ from: &quot;order_item&quot;, localField:&quot;order_id&quot;, foreignField:&quot;order_id&quot;, as:&quot;items&quot;}}, {$project: {order_id:1, trade_no:1, items:1}}])</code>:<br>显示指定的字段，但是<code>items</code>:1,必须指定加上，才能显示出关联表的结果信息</p>
+<h3 id="（2）数据库的备份和还原"><a href="#（2）数据库的备份和还原" class="headerlink" title="（2）数据库的备份和还原"></a>（2）数据库的备份和还原</h3><h4 id="无设置密码版本"><a href="#无设置密码版本" class="headerlink" title="无设置密码版本"></a>无设置密码版本</h4><p>备份导出:</p>
+<p><code>mongodump -h ip地址 -d 数据库 -o 导出路径</code></p>
+<p>还原导入:</p>
+<p><code>mongorestore -h ip地址 -d 数据库 导入路径</code> </p>
+<h4 id="有设置密码版本"><a href="#有设置密码版本" class="headerlink" title="有设置密码版本"></a>有设置密码版本</h4><p>备份导出:</p>
+<p><code>mongodump -h ip地址 -d 数据库 -u 数据库 -p 密码 -o 导出路径</code></p>
+<p>还原导入:</p>
+<p><code>mongorestore -h ip地址 -d 数据库 导入路径 -u 数据库 -p 密码</code> </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/04/23/technologySharing-4/" rel="next" title="Git篇">
+                <i class="fa fa-chevron-left"></i> Git篇
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Jiabing Yu">
+            
+              <p class="site-author-name" itemprop="name">Jiabing Yu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建库的步骤"><span class="nav-number">1.</span> <span class="nav-text">创建库的步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#炼气期"><span class="nav-number">2.</span> <span class="nav-text">炼气期:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）查询数据"><span class="nav-number">2.1.</span> <span class="nav-text">（1）查询数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）插入数据"><span class="nav-number">2.2.</span> <span class="nav-text">（2）插入数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）更新数据"><span class="nav-number">2.3.</span> <span class="nav-text">（3）更新数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（4）删除数据"><span class="nav-number">2.4.</span> <span class="nav-text">（4）删除数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#筑基期"><span class="nav-number">3.</span> <span class="nav-text">筑基期:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）索引"><span class="nav-number">3.1.</span> <span class="nav-text">（1）索引</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#新的创建索引方法"><span class="nav-number">3.1.0.1.</span> <span class="nav-text">新的创建索引方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）唯一索引"><span class="nav-number">3.2.</span> <span class="nav-text">（2）唯一索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）权限"><span class="nav-number">3.3.</span> <span class="nav-text">（3）权限</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建超级管理用户"><span class="nav-number">3.3.0.1.</span> <span class="nav-text">创建超级管理用户:</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建数据库管理用户"><span class="nav-number">3.3.1.</span> <span class="nav-text">创建数据库管理用户</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#结丹期"><span class="nav-number">4.</span> <span class="nav-text">结丹期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）Aggregation-管道操作符与表达式"><span class="nav-number">4.1.</span> <span class="nav-text">（1）Aggregation 管道操作符与表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lookup表关联"><span class="nav-number">4.1.1.</span> <span class="nav-text">$lookup表关联</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）数据库的备份和还原"><span class="nav-number">4.2.</span> <span class="nav-text">（2）数据库的备份和还原</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#无设置密码版本"><span class="nav-number">4.2.1.</span> <span class="nav-text">无设置密码版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有设置密码版本"><span class="nav-number">4.2.2.</span> <span class="nav-text">有设置密码版本</span></a></li></ol></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiabing Yu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

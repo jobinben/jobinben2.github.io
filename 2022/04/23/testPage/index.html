@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svgd?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Nest.js 篇1. Nest.js是什么？   12Nest.js 是一个 Node.js 的后端框架，它是对Express上做了一层封装，解决了架构问题。它提供了 Express 没有的 MVC、IOC、AOP 等架构特性，使得代码更容易维护、扩展。 2. Nest.js的核心技术: MVC、IOC、AOP   12MVC,IOC,AOP是Nest.js编程上最常用的核心技术，而这些技术类似">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nest.js 篇">
+<meta property="og:url" content="http://yoursite.com/2022/04/23/testPage/index.html">
+<meta property="og:site_name" content="大冰">
+<meta property="og:description" content="Nest.js 篇1. Nest.js是什么？   12Nest.js 是一个 Node.js 的后端框架，它是对Express上做了一层封装，解决了架构问题。它提供了 Express 没有的 MVC、IOC、AOP 等架构特性，使得代码更容易维护、扩展。 2. Nest.js的核心技术: MVC、IOC、AOP   12MVC,IOC,AOP是Nest.js编程上最常用的核心技术，而这些技术类似">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/MVC.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/Controller.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/inject.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP例子代码.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序-1.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序-2.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序-3.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序-4.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序-5.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序-6.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序流程图.png">
+<meta property="og:updated_time" content="2022-04-23T11:23:39.759Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nest.js 篇">
+<meta name="twitter:description" content="Nest.js 篇1. Nest.js是什么？   12Nest.js 是一个 Node.js 的后端框架，它是对Express上做了一层封装，解决了架构问题。它提供了 Express 没有的 MVC、IOC、AOP 等架构特性，使得代码更容易维护、扩展。 2. Nest.js的核心技术: MVC、IOC、AOP   12MVC,IOC,AOP是Nest.js编程上最常用的核心技术，而这些技术类似">
+<meta name="twitter:image" content="http://yoursite.com/2022/04/23/testPage/images/MVC.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2022/04/23/testPage/">
+
+
+
+
+
+  <title>Nest.js 篇 | 大冰</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大冰</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">可乐要加冰 | 前端要走心</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            目录
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            个人简历
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/04/23/testPage/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiabing Yu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大冰">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Nest.js 篇</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-04-23T18:26:33+08:00">
+                2022-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Nest-js-篇"><a href="#Nest-js-篇" class="headerlink" title="Nest.js 篇"></a>Nest.js 篇</h1><h2 id="1-Nest-js是什么？"><a href="#1-Nest-js是什么？" class="headerlink" title="1. Nest.js是什么？"></a>1. Nest.js是什么？</h2>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Nest.js 是一个 Node.js 的后端框架，它是对Express上做了一层封装，解决了架构问题。</span><br><span class="line">它提供了 Express 没有的 MVC、IOC、AOP 等架构特性，使得代码更容易维护、扩展。</span><br></pre></td></tr></table></figure>
+<h2 id="2-Nest-js的核心技术-MVC、IOC、AOP"><a href="#2-Nest-js的核心技术-MVC、IOC、AOP" class="headerlink" title="2. Nest.js的核心技术: MVC、IOC、AOP"></a>2. Nest.js的核心技术: MVC、IOC、AOP</h2>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MVC,IOC,AOP是Nest.js编程上最常用的核心技术，而这些技术类似于Java的Spring，</span><br><span class="line">在社区上，有一句对它的描述: &quot;JS版的Spring&quot;。</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="（1）MVC"><a href="#（1）MVC" class="headerlink" title="（1）MVC"></a>（1）MVC</h3>   <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MVC是Model View Controller的简写。也就是模型层，视图层，控制层。</span><br><span class="line">它跟MVVM架构不一样，MVC架构下，请求会先发送到控制层(C) ，再由它调度模型层(M)的Service来完成业务逻辑，</span><br><span class="line">最后返回对应的视图层(V)。 下面是它的逻辑图。</span><br></pre></td></tr></table></figure>
+<p>  <img src="/2022/04/23/testPage/images/MVC.png" alt="MVC"></p>
+<h3 id="（2）IOC"><a href="#（2）IOC" class="headerlink" title="（2）IOC"></a>（2）IOC</h3><p>   （1）IOC是Inverse Of Control的简写。通过@Controller、@Injectable装饰器声明类（class） 就会被Nest.js扫描，创建对应的对象并添加到一个容器里，这些对象会根据构造器里声明的依赖 “自动注入”，也就是DI（dependency inject），这就是IOC的思想。</p>
+<p>   （2）IOC架构的好处就是不需要手动创建对象和根据依赖关系传入不同对象的构造器中，一切都是自动扫描并创建、注入的。</p>
+<p>   <img src="/2022/04/23/testPage/images/Controller.png" alt="Controller"></p>
+<p>   <img src="/2022/04/23/testPage/images/inject.png" alt="inject"></p>
+<h3 id="（3）AOP"><a href="#（3）AOP" class="headerlink" title="（3）AOP"></a>（3）AOP</h3>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AOP架构又是什么呢？AOP是Aspect Oriented Program的简写。也就是面向切面编程。</span><br></pre></td></tr></table></figure>
+<p>在Nest中，一个请求过来，会经过<code>Controller</code>到<code>Service</code>再到<code>Repository</code>。也就是MVC的一个流程。 在进入这个<code>Controller</code>之前呢，我们会进行一个<code>JWT</code>或者异常处理，日志处理等等。</p>
+<p>如果直接在改造<code>Controller</code>控制层的代码，这显然很不优雅，可能还会使控制器变得无法控制。</p>
+<p>   所以在进入控制层(C)之前，就进行了一个切面，在进入<code>Controller</code>之前做一些处理。 如下图：</p>
+<p><img src="/2022/04/23/testPage/images/AOP.png" alt="AOP"></p>
+<p>   在Nest.js实现AOP的方式有5种：<code>Gurad</code>（守卫）、<code>Pipe</code>（管道）、<code>Interceptor</code>（拦截器）、<code>ExceptionFilter</code>（异常过滤器）、还有<code>Middleware</code>（中间件）。</p>
+<p>   而中间件来实现<code>AOP</code>比较特别，因为<code>Express</code>的中间件洋葱模型，它可以透明的在外面包一层，加入一些逻辑，内层感知不到。Nest.js的<code>Middleware</code>中间件是直接继承于Express框架的。</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">下面是AOP的一个例子代码:</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/04/23/testPage/images/AOP例子代码.png" alt="AOP例子代码"></p>
+<p>   上面的代码对单独的路由进行了<code>Gurad</code>和<code>Interceptor</code>加上了两层透明的逻辑（权限控制以及拦截器），这就是<code>AOP</code>的好处。</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1. 思考：当AOP的五种创建方式同时存在的时候，是先执行哪种方式呢？</span><br></pre></td></tr></table></figure>
+<p>   在我们学习任何语言，都少不了看源码，特别在这种执行顺序方面上，我们常常都可以在源码找到我们的答案。针对这个问题，于是我就从github上clone下源码进行针对性的研究：</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">主要文件：`router-execution-context.ts`</span><br></pre></td></tr></table></figure>
+<p>   (1) 首先我们看一下<code>create</code>函数返回的函数，由执行顺序看出，先判断<code>fnCanActivate</code>函数，这个函数是<code>Guard</code>的，也就是先用<code>Guard</code>判断是否有权限。</p>
+<p><img src="/2022/04/23/testPage/images/AOP执行顺序-1.png" alt="AOP执行顺序-1"></p>
+<p>   (2)<code>fnCanActivate</code>是通过调用<code>createGuardsFn</code>函数，进入函数判断是否有权限，如果没有权限就抛出异常，而异常是由<code>ExceptionFilter</code>处理的。</p>
+<p>   <img src="/2022/04/23/testPage/images/AOP执行顺序-2.png" alt="AOP执行顺序-2"></p>
+<p>   (3)接下来进行调用了<code>Interceptor</code>拦截器处理，和<code>Guard</code>一样，进行链式调用处理。所有处理完后，最后调用<code>Controller</code>的方法。也就是进入路由。</p>
+<p>   <img src="/2022/04/23/testPage/images/AOP执行顺序-3.png" alt="AOP执行顺序-3"></p>
+<p>   (4) 进入路由前，也就是调用<code>Controller</code>方法之前，使用了<code>Pipe</code>去对这些参数进行处理。</p>
+<p>   <img src="/2022/04/23/testPage/images/AOP执行顺序-4.png" alt="AOP执行顺序-4"></p>
+<p>   <img src="/2022/04/23/testPage/images/AOP执行顺序-5.png" alt="AOP执行顺序-5"></p>
+<p>   <img src="/2022/04/23/testPage/images/AOP执行顺序-6.png" alt="AOP执行顺序-6"></p>
+<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="(4) 总结"></a>(4) 总结</h3>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MVC是Model View Controller的简写。请求先经过Controller，然后再调用Model进行Service、Repository完成业务逻辑，最后返回对应的View。</span><br></pre></td></tr></table></figure>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IOC是Inverse Of Control的简写。IOC是指Nest.js会自动扫描带有@Controller、@Injectable装饰器的类，创建他们的对象，并根据依赖关系自动注入它依赖的对象，免去了手动创建和组装对象的麻烦。</span><br></pre></td></tr></table></figure>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AOP是Aspect Oriented Program的简写。AOP是把通用的逻辑抽离出，通过切面编程的方式添加到某个方法，类上去，可以复用其通用逻辑。</span><br><span class="line">Gurad（守卫）、Pipe（管道）、Interceptor（拦截器）、ExceptionFilter（异常过滤器）、还有Middleware（中间件）。这些都是AOP思想的实现。</span><br><span class="line">其AOP在Nest.js的调用顺序可以由下面流程图表示：</span><br></pre></td></tr></table></figure>
+<p>   <img src="/2022/04/23/testPage/images/AOP执行顺序流程图.png" alt="AOP执行顺序流程图"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/24/javascript-sort/" rel="next" title="关于JavaScript数组的sort()的详解">
+                <i class="fa fa-chevron-left"></i> 关于JavaScript数组的sort()的详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/04/23/technologySharing-1/" rel="prev" title="pub.js篇">
+                pub.js篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Jiabing Yu">
+            
+              <p class="site-author-name" itemprop="name">Jiabing Yu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nest-js-篇"><span class="nav-number">1.</span> <span class="nav-text">Nest.js 篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Nest-js是什么？"><span class="nav-number">1.1.</span> <span class="nav-text">1. Nest.js是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Nest-js的核心技术-MVC、IOC、AOP"><span class="nav-number">1.2.</span> <span class="nav-text">2. Nest.js的核心技术: MVC、IOC、AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）MVC"><span class="nav-number">1.2.1.</span> <span class="nav-text">（1）MVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）IOC"><span class="nav-number">1.2.2.</span> <span class="nav-text">（2）IOC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）AOP"><span class="nav-number">1.2.3.</span> <span class="nav-text">（3）AOP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">1.2.4.</span> <span class="nav-text">(4) 总结</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiabing Yu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
