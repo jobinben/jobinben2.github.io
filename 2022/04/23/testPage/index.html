@@ -98,7 +98,7 @@
 <meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序-5.png">
 <meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序-6.png">
 <meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序流程图.png">
-<meta property="og:updated_time" content="2022-04-23T11:23:39.759Z">
+<meta property="og:updated_time" content="2022-04-23T13:03:39.093Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nest.js 篇">
 <meta name="twitter:description" content="Nest.js 篇1. Nest.js是什么？   12Nest.js 是一个 Node.js 的后端框架，它是对Express上做了一层封装，解决了架构问题。它提供了 Express 没有的 MVC、IOC、AOP 等架构特性，使得代码更容易维护、扩展。 2. Nest.js的核心技术: MVC、IOC、AOP   12MVC,IOC,AOP是Nest.js编程上最常用的核心技术，而这些技术类似">
@@ -354,9 +354,9 @@
 <p>   <img src="/2022/04/23/testPage/images/AOP执行顺序-4.png" alt="AOP执行顺序-4"></p>
 <p>   <img src="/2022/04/23/testPage/images/AOP执行顺序-5.png" alt="AOP执行顺序-5"></p>
 <p>   <img src="/2022/04/23/testPage/images/AOP执行顺序-6.png" alt="AOP执行顺序-6"></p>
-<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="(4) 总结"></a>(4) 总结</h3>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MVC是Model View Controller的简写。请求先经过Controller，然后再调用Model进行Service、Repository完成业务逻辑，最后返回对应的View。</span><br></pre></td></tr></table></figure>
-   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IOC是Inverse Of Control的简写。IOC是指Nest.js会自动扫描带有@Controller、@Injectable装饰器的类，创建他们的对象，并根据依赖关系自动注入它依赖的对象，免去了手动创建和组装对象的麻烦。</span><br></pre></td></tr></table></figure>
-   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AOP是Aspect Oriented Program的简写。AOP是把通用的逻辑抽离出，通过切面编程的方式添加到某个方法，类上去，可以复用其通用逻辑。</span><br><span class="line">Gurad（守卫）、Pipe（管道）、Interceptor（拦截器）、ExceptionFilter（异常过滤器）、还有Middleware（中间件）。这些都是AOP思想的实现。</span><br><span class="line">其AOP在Nest.js的调用顺序可以由下面流程图表示：</span><br></pre></td></tr></table></figure>
+<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="(4) 总结"></a>(4) 总结</h3>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MVC是Model View Controller的简写。请求先经过Controller，然后再调用Model进行Service、Repository完成业务逻辑，</span><br><span class="line">最后返回对应的View。</span><br></pre></td></tr></table></figure>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IOC是Inverse Of Control的简写。IOC是指Nest.js会自动扫描带有@Controller、@Injectable装饰器的类，</span><br><span class="line">创建他们的对象，并根据依赖关系自动注入它依赖的对象，免去了手动创建和组装对象的麻烦。</span><br></pre></td></tr></table></figure>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AOP是Aspect Oriented Program的简写。AOP是把通用的逻辑抽离出，通过切面编程的方式添加到某个方法，类上去，</span><br><span class="line">可以复用其通用逻辑。Gurad（守卫）、Pipe（管道）、Interceptor（拦截器）、ExceptionFilter（异常过滤器）、</span><br><span class="line">还有Middleware（中间件）。这些都是AOP思想的实现。其AOP在Nest.js的调用顺序可以由下面流程图表示：</span><br></pre></td></tr></table></figure>
 <p>   <img src="/2022/04/23/testPage/images/AOP执行顺序流程图.png" alt="AOP执行顺序流程图"></p>
 
       
