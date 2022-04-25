@@ -98,7 +98,10 @@
 <meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序-5.png">
 <meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序-6.png">
 <meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/AOP执行顺序流程图.png">
-<meta property="og:updated_time" content="2022-04-23T13:03:39.093Z">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/project-AOP-1.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/project-AOP-2.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/23/testPage/images/project-AOP-3.png">
+<meta property="og:updated_time" content="2022-04-25T14:37:05.260Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nest.js 篇">
 <meta name="twitter:description" content="Nest.js 篇1. Nest.js是什么？   12Nest.js 是一个 Node.js 的后端框架，它是对Express上做了一层封装，解决了架构问题。它提供了 Express 没有的 MVC、IOC、AOP 等架构特性，使得代码更容易维护、扩展。 2. Nest.js的核心技术: MVC、IOC、AOP   12MVC,IOC,AOP是Nest.js编程上最常用的核心技术，而这些技术类似">
@@ -358,6 +361,9 @@
    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IOC是Inverse Of Control的简写。IOC是指Nest.js会自动扫描带有@Controller、@Injectable装饰器的类，</span><br><span class="line">创建他们的对象，并根据依赖关系自动注入它依赖的对象，免去了手动创建和组装对象的麻烦。</span><br></pre></td></tr></table></figure>
    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AOP是Aspect Oriented Program的简写。AOP是把通用的逻辑抽离出，通过切面编程的方式添加到某个方法，类上去，</span><br><span class="line">可以复用其通用逻辑。Gurad（守卫）、Pipe（管道）、Interceptor（拦截器）、ExceptionFilter（异常过滤器）、</span><br><span class="line">还有Middleware（中间件）。这些都是AOP思想的实现。其AOP在Nest.js的调用顺序可以由下面流程图表示：</span><br></pre></td></tr></table></figure>
 <p>   <img src="/2022/04/23/testPage/images/AOP执行顺序流程图.png" alt="AOP执行顺序流程图"></p>
+<h2 id="项目上的应用"><a href="#项目上的应用" class="headerlink" title="项目上的应用"></a>项目上的应用</h2><p>在nest_td项目下，采用全局的方式去进行AOP编程，而部分 <code>Gurad</code>守卫是单独在<code>Controller</code>进行拦截。</p>
+<p><img src="/2022/04/23/testPage/images/project-AOP-1.png" alt="project-AOP-1.png"></p>
+<p>对<code>Gurad</code>进行二次封装后，进行使用<br><img src="/2022/04/23/testPage/images/project-AOP-2.png" alt="project-AOP-2.png"><br><img src="/2022/04/23/testPage/images/project-AOP-3.png" alt="project-AOP-3.png"></p>
 
       
     </div>
@@ -510,7 +516,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nest-js-篇"><span class="nav-number">1.</span> <span class="nav-text">Nest.js 篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Nest-js是什么？"><span class="nav-number">1.1.</span> <span class="nav-text">1. Nest.js是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Nest-js的核心技术-MVC、IOC、AOP"><span class="nav-number">1.2.</span> <span class="nav-text">2. Nest.js的核心技术: MVC、IOC、AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）MVC"><span class="nav-number">1.2.1.</span> <span class="nav-text">（1）MVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）IOC"><span class="nav-number">1.2.2.</span> <span class="nav-text">（2）IOC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）AOP"><span class="nav-number">1.2.3.</span> <span class="nav-text">（3）AOP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">1.2.4.</span> <span class="nav-text">(4) 总结</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nest-js-篇"><span class="nav-number">1.</span> <span class="nav-text">Nest.js 篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Nest-js是什么？"><span class="nav-number">1.1.</span> <span class="nav-text">1. Nest.js是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Nest-js的核心技术-MVC、IOC、AOP"><span class="nav-number">1.2.</span> <span class="nav-text">2. Nest.js的核心技术: MVC、IOC、AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）MVC"><span class="nav-number">1.2.1.</span> <span class="nav-text">（1）MVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）IOC"><span class="nav-number">1.2.2.</span> <span class="nav-text">（2）IOC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）AOP"><span class="nav-number">1.2.3.</span> <span class="nav-text">（3）AOP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">1.2.4.</span> <span class="nav-text">(4) 总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目上的应用"><span class="nav-number">1.3.</span> <span class="nav-text">项目上的应用</span></a></li></ol></li></ol></div>
             
 
           </div>
