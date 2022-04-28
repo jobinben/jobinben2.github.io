@@ -239,6 +239,148 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/04/28/vue3-jest-daily/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiabing Yu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大冰">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/04/28/vue3-jest-daily/" itemprop="url">vue3-jest-daily</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-04-28T09:55:04+08:00">
+                2022-04-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-依赖安装"><a href="#1-依赖安装" class="headerlink" title="1. 依赖安装"></a>1. 依赖安装</h2><p>相关依赖根据<code>vue-jest</code>的<code>package.json</code>文件，查看依赖包的版本限制如何。从<code>peerDependencies</code>属性可以看出，对应的依赖版本限制如下：</p>
+<p><img src="/2022/04/28/vue3-jest-daily/vue-jest-dependencies.png" alt="vue-jest-dependencies"></p>
+<p>进行安装版本要求内的依赖包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i babel-jest@26.0.0 jest@26.0.0 ts-jest@26.4.4 -D</span><br></pre></td></tr></table></figure></p>
+<p>接着还需要安装测试库以及其他的依赖包，这类依赖包可以安装最新的版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i @vue/babel-preset-app @testing-library/vue@next @testing-library/user-event @testing-library/jest-dom @types/jest vue-jest@next @vue/test-utils@next -D</span><br></pre></td></tr></table></figure></p>
+<p>关于测试库的使用的参考资料:</p>
+<p><a href="https://testing-library.com/docs/ecosystem-jest-dom/" target="_blank" rel="noopener">Testing Library</a></p>
+<p><a href="https://test-utils.vuejs.org/guide/" target="_blank" rel="noopener">Vue Test Utils</a></p>
+<p><a href="https://jestjs.io/zh-Hans/docs/getting-started" target="_blank" rel="noopener">Jest</a></p>
+<h2 id="2-相关配置"><a href="#2-相关配置" class="headerlink" title="2. 相关配置"></a>2. 相关配置</h2><p>jest.config.js<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">	roots: [</span><br><span class="line">		<span class="string">'&lt;rootDir&gt;/vue/tenui/src/'</span></span><br><span class="line">	],</span><br><span class="line">	testMatch: [</span><br><span class="line">		<span class="string">'&lt;rootDir&gt;/vue/tenui/src/**/__tests__/**/*.&#123;vue,js,jsx,ts,tsx&#125;'</span>,</span><br><span class="line">		<span class="string">'&lt;rootDir&gt;/vue/tenui/src/**/*.&#123;spec,test&#125;.&#123;vue,js,jsx,ts,tsx&#125;'</span>,</span><br><span class="line">	],</span><br><span class="line">	testEnvironment: <span class="string">'jsdom'</span>,</span><br><span class="line">	transform: &#123;</span><br><span class="line">		<span class="string">'^.+\\.(vue)$'</span>: <span class="string">'&lt;rootDir&gt;/node_modules/vue-jest'</span>,</span><br><span class="line">		<span class="string">'^.+\\.(js|jsx|mjs|cjs|ts|tsx)$'</span>: <span class="string">'&lt;rootDir&gt;/node_modules/babel-jest'</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">	transformIgnorePatterns: [</span><br><span class="line">		<span class="string">'&lt;rootDir&gt;/node_modules/'</span>,</span><br><span class="line">		<span class="string">'[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$'</span>,</span><br><span class="line">		<span class="string">'^.+\\.module\\.(css|sass|scss|less)$'</span>,</span><br><span class="line">	],</span><br><span class="line">	moduleFileExtensions: [</span><br><span class="line">		<span class="string">'vue'</span>,</span><br><span class="line">		<span class="string">'js'</span>,</span><br><span class="line">		<span class="string">'jsx'</span>,</span><br><span class="line">		<span class="string">'ts'</span>,</span><br><span class="line">		<span class="string">'tsx'</span>,</span><br><span class="line">		<span class="string">'json'</span>,</span><br><span class="line">		<span class="string">'node'</span>,</span><br><span class="line">	],</span><br><span class="line">	resetMocks: <span class="literal">true</span>,</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>babel.config.js</p>
+<p>为了不影响其他环境的<code>presets</code>和<code>plugins</code>的配置，根据测试环境下返回要使用的<code>presets</code>和<code>plugins</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">api</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">const</span> isTest = api.env(<span class="string">'test'</span>);</span><br><span class="line">	<span class="comment">// You can use isTest to determine what presets and plugins to use.</span></span><br><span class="line">	<span class="keyword">if</span>(isTest) &#123;</span><br><span class="line">		<span class="keyword">return</span> &#123;</span><br><span class="line">			presets: [</span><br><span class="line">				<span class="string">'@vue/app'</span>,</span><br><span class="line">			],</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>package.json</p>
+<p>配置script属性下的运行指令<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "jest": "jest tenui\/src --watch"</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-测试单文件SFC"><a href="#3-测试单文件SFC" class="headerlink" title="3. 测试单文件SFC"></a>3. 测试单文件SFC</h2><p>TreeSelectCascader.vue</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"cascader"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"popover-wrapper"</span> <span class="attr">v-if</span>=<span class="string">"popoverVisible"</span> <span class="attr">data-test</span>=<span class="string">"TreeSelectCascader"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">TreeSelectCascaderItem</span> <span class="attr">:sourceItem</span>=<span class="string">"source"</span> <span class="attr">:height</span>=<span class="string">"height"</span> <span class="attr">:selected</span>=<span class="string">"selected"</span> @<span class="attr">update:selected</span>=<span class="string">"onUpdateSelected"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    result: &#123;&#123; result &#125;&#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>TreeSelectCascader.spec.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> TreeSelectCascader <span class="keyword">from</span> <span class="string">"../TreeSelectCascader.vue"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; mount &#125; <span class="keyword">from</span> <span class="string">"@vue/test-utils"</span>;</span><br><span class="line"></span><br><span class="line">test(<span class="string">'TreeSelectCascader: '</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="comment">// render component.</span></span><br><span class="line">  <span class="keyword">const</span> wrapper = mount(TreeSelectCascader);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// mounted</span></span><br><span class="line">  <span class="keyword">const</span> textNode = <span class="keyword">await</span> wrapper.get(<span class="string">'[data-test="TreeSelectCascader"]'</span>);</span><br><span class="line">  expect(textNode).toBeTruthy();</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="4-运行测试用例"><a href="#4-运行测试用例" class="headerlink" title="4. 运行测试用例"></a>4. 运行测试用例</h2><p>执行<code>package.json</code>下的<code>scripts</code>属性下配置好的<code>jest</code>指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run jest</span><br></pre></td></tr></table></figure>
+<p>也可以通过<code>npx</code>运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx jest src --watch</span><br></pre></td></tr></table></figure></p>
+<p>测试用例执行后的结果：</p>
+<p><img src="/2022/04/28/vue3-jest-daily/test-unit-1.png" alt="test-unit-1"></p>
+<h2 id="其他参考资料"><a href="#其他参考资料" class="headerlink" title="其他参考资料"></a>其他参考资料</h2><p><a href="https://zhuanlan.zhihu.com/p/377566681" target="_blank" rel="noopener">vue3-jest环境配置</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/04/23/technologySharing-5/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1380,137 +1522,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/10/typescripe3/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jiabing Yu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/header.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="大冰">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/10/typescripe3/" itemprop="url">TypeScript设计模式的工厂模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-10T00:34:38+08:00">
-                2019-03-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h2><p><strong>特点</strong>：<strong>就是把同类型产品对象的创建集中到一起，通过工厂来创建，添加新产品时只需加到工厂里即可，也就是把变化封装起来，同时还可以隐藏产品的一些细节。</strong></p>
-<p><strong>用处</strong>：<strong>要new多个同一类型对象时可以考虑使用简单工厂。</strong></p>
-<p><strong>注意</strong>：<strong>对象需要继承自同一个接口</strong></p>
-<p>我们来举例一下枪工厂：</p>
-<blockquote>
-<p><code>enum GunType{
-AK, M4}</code><br><code>interface Shootable {     shoot(); }</code><br><code>abstract class Gun implements Shootable {
-//抽象产品 - 枪</code><br></p></blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/03/10/typescripe3/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1563,7 +1574,7 @@ AK, M4}</code><br><code>interface Shootable {     shoot(); }</code><br><code>abs
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

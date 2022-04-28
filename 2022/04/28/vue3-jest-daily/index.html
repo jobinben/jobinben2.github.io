@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svgd?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 依赖安装相关依赖根据vue-jest的package.json文件，查看依赖包的版本限制如何。从peerDependencies属性可以看出，对应的依赖版本限制如下：  进行安装版本要求内的依赖包1npm i babel-jest@26.0.0 jest@26.0.0 ts-jest@26.4.4 -D 接着还需要安装测试库以及其他的依赖包，这类依赖包可以安装最新的版本1npm i @vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue3-jest-daily">
+<meta property="og:url" content="http://yoursite.com/2022/04/28/vue3-jest-daily/index.html">
+<meta property="og:site_name" content="大冰">
+<meta property="og:description" content="1. 依赖安装相关依赖根据vue-jest的package.json文件，查看依赖包的版本限制如何。从peerDependencies属性可以看出，对应的依赖版本限制如下：  进行安装版本要求内的依赖包1npm i babel-jest@26.0.0 jest@26.0.0 ts-jest@26.4.4 -D 接着还需要安装测试库以及其他的依赖包，这类依赖包可以安装最新的版本1npm i @vue">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2022/04/28/vue3-jest-daily/vue-jest-dependencies.png">
+<meta property="og:image" content="http://yoursite.com/2022/04/28/vue3-jest-daily/test-unit-1.png">
+<meta property="og:updated_time" content="2022-04-28T14:54:02.367Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue3-jest-daily">
+<meta name="twitter:description" content="1. 依赖安装相关依赖根据vue-jest的package.json文件，查看依赖包的版本限制如何。从peerDependencies属性可以看出，对应的依赖版本限制如下：  进行安装版本要求内的依赖包1npm i babel-jest@26.0.0 jest@26.0.0 ts-jest@26.4.4 -D 接着还需要安装测试库以及其他的依赖包，这类依赖包可以安装最新的版本1npm i @vue">
+<meta name="twitter:image" content="http://yoursite.com/2022/04/28/vue3-jest-daily/vue-jest-dependencies.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2022/04/28/vue3-jest-daily/">
+
+
+
+
+
+  <title>vue3-jest-daily | 大冰</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大冰</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">可乐要加冰 | 前端要走心</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            目录
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            个人简历
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/04/28/vue3-jest-daily/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiabing Yu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大冰">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vue3-jest-daily</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-04-28T09:55:04+08:00">
+                2022-04-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-依赖安装"><a href="#1-依赖安装" class="headerlink" title="1. 依赖安装"></a>1. 依赖安装</h2><p>相关依赖根据<code>vue-jest</code>的<code>package.json</code>文件，查看依赖包的版本限制如何。从<code>peerDependencies</code>属性可以看出，对应的依赖版本限制如下：</p>
+<p><img src="/2022/04/28/vue3-jest-daily/vue-jest-dependencies.png" alt="vue-jest-dependencies"></p>
+<p>进行安装版本要求内的依赖包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i babel-jest@26.0.0 jest@26.0.0 ts-jest@26.4.4 -D</span><br></pre></td></tr></table></figure></p>
+<p>接着还需要安装测试库以及其他的依赖包，这类依赖包可以安装最新的版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i @vue/babel-preset-app @testing-library/vue@next @testing-library/user-event @testing-library/jest-dom @types/jest vue-jest@next @vue/test-utils@next -D</span><br></pre></td></tr></table></figure></p>
+<p>关于测试库的使用的参考资料:</p>
+<p><a href="https://testing-library.com/docs/ecosystem-jest-dom/" target="_blank" rel="noopener">Testing Library</a></p>
+<p><a href="https://test-utils.vuejs.org/guide/" target="_blank" rel="noopener">Vue Test Utils</a></p>
+<p><a href="https://jestjs.io/zh-Hans/docs/getting-started" target="_blank" rel="noopener">Jest</a></p>
+<h2 id="2-相关配置"><a href="#2-相关配置" class="headerlink" title="2. 相关配置"></a>2. 相关配置</h2><p>jest.config.js<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">	roots: [</span><br><span class="line">		<span class="string">'&lt;rootDir&gt;/vue/tenui/src/'</span></span><br><span class="line">	],</span><br><span class="line">	testMatch: [</span><br><span class="line">		<span class="string">'&lt;rootDir&gt;/vue/tenui/src/**/__tests__/**/*.&#123;vue,js,jsx,ts,tsx&#125;'</span>,</span><br><span class="line">		<span class="string">'&lt;rootDir&gt;/vue/tenui/src/**/*.&#123;spec,test&#125;.&#123;vue,js,jsx,ts,tsx&#125;'</span>,</span><br><span class="line">	],</span><br><span class="line">	testEnvironment: <span class="string">'jsdom'</span>,</span><br><span class="line">	transform: &#123;</span><br><span class="line">		<span class="string">'^.+\\.(vue)$'</span>: <span class="string">'&lt;rootDir&gt;/node_modules/vue-jest'</span>,</span><br><span class="line">		<span class="string">'^.+\\.(js|jsx|mjs|cjs|ts|tsx)$'</span>: <span class="string">'&lt;rootDir&gt;/node_modules/babel-jest'</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">	transformIgnorePatterns: [</span><br><span class="line">		<span class="string">'&lt;rootDir&gt;/node_modules/'</span>,</span><br><span class="line">		<span class="string">'[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$'</span>,</span><br><span class="line">		<span class="string">'^.+\\.module\\.(css|sass|scss|less)$'</span>,</span><br><span class="line">	],</span><br><span class="line">	moduleFileExtensions: [</span><br><span class="line">		<span class="string">'vue'</span>,</span><br><span class="line">		<span class="string">'js'</span>,</span><br><span class="line">		<span class="string">'jsx'</span>,</span><br><span class="line">		<span class="string">'ts'</span>,</span><br><span class="line">		<span class="string">'tsx'</span>,</span><br><span class="line">		<span class="string">'json'</span>,</span><br><span class="line">		<span class="string">'node'</span>,</span><br><span class="line">	],</span><br><span class="line">	resetMocks: <span class="literal">true</span>,</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>babel.config.js</p>
+<p>为了不影响其他环境的<code>presets</code>和<code>plugins</code>的配置，根据测试环境下返回要使用的<code>presets</code>和<code>plugins</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">api</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">const</span> isTest = api.env(<span class="string">'test'</span>);</span><br><span class="line">	<span class="comment">// You can use isTest to determine what presets and plugins to use.</span></span><br><span class="line">	<span class="keyword">if</span>(isTest) &#123;</span><br><span class="line">		<span class="keyword">return</span> &#123;</span><br><span class="line">			presets: [</span><br><span class="line">				<span class="string">'@vue/app'</span>,</span><br><span class="line">			],</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>package.json</p>
+<p>配置script属性下的运行指令<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">"scripts": &#123;</span><br><span class="line">  "jest": "jest tenui\/src --watch"</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-测试单文件SFC"><a href="#3-测试单文件SFC" class="headerlink" title="3. 测试单文件SFC"></a>3. 测试单文件SFC</h2><p>TreeSelectCascader.vue</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"cascader"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"popover-wrapper"</span> <span class="attr">v-if</span>=<span class="string">"popoverVisible"</span> <span class="attr">data-test</span>=<span class="string">"TreeSelectCascader"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">TreeSelectCascaderItem</span> <span class="attr">:sourceItem</span>=<span class="string">"source"</span> <span class="attr">:height</span>=<span class="string">"height"</span> <span class="attr">:selected</span>=<span class="string">"selected"</span> @<span class="attr">update:selected</span>=<span class="string">"onUpdateSelected"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    result: &#123;&#123; result &#125;&#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>TreeSelectCascader.spec.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> TreeSelectCascader <span class="keyword">from</span> <span class="string">"../TreeSelectCascader.vue"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; mount &#125; <span class="keyword">from</span> <span class="string">"@vue/test-utils"</span>;</span><br><span class="line"></span><br><span class="line">test(<span class="string">'TreeSelectCascader: '</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="comment">// render component.</span></span><br><span class="line">  <span class="keyword">const</span> wrapper = mount(TreeSelectCascader);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// mounted</span></span><br><span class="line">  <span class="keyword">const</span> textNode = <span class="keyword">await</span> wrapper.get(<span class="string">'[data-test="TreeSelectCascader"]'</span>);</span><br><span class="line">  expect(textNode).toBeTruthy();</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="4-运行测试用例"><a href="#4-运行测试用例" class="headerlink" title="4. 运行测试用例"></a>4. 运行测试用例</h2><p>执行<code>package.json</code>下的<code>scripts</code>属性下配置好的<code>jest</code>指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run jest</span><br></pre></td></tr></table></figure>
+<p>也可以通过<code>npx</code>运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx jest src --watch</span><br></pre></td></tr></table></figure></p>
+<p>测试用例执行后的结果：</p>
+<p><img src="/2022/04/28/vue3-jest-daily/test-unit-1.png" alt="test-unit-1"></p>
+<h2 id="其他参考资料"><a href="#其他参考资料" class="headerlink" title="其他参考资料"></a>其他参考资料</h2><p><a href="https://zhuanlan.zhihu.com/p/377566681" target="_blank" rel="noopener">vue3-jest环境配置</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/04/23/technologySharing-5/" rel="next" title="MongoDB修仙录">
+                <i class="fa fa-chevron-left"></i> MongoDB修仙录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Jiabing Yu">
+            
+              <p class="site-author-name" itemprop="name">Jiabing Yu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-依赖安装"><span class="nav-number">1.</span> <span class="nav-text">1. 依赖安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-相关配置"><span class="nav-number">2.</span> <span class="nav-text">2. 相关配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-测试单文件SFC"><span class="nav-number">3.</span> <span class="nav-text">3. 测试单文件SFC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-运行测试用例"><span class="nav-number">4.</span> <span class="nav-text">4. 运行测试用例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他参考资料"><span class="nav-number">5.</span> <span class="nav-text">其他参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiabing Yu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
