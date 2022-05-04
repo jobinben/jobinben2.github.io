@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/ice.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svgd?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="权限的控制机制说到了登陆，那么我们会联想到权限的控制，决定用户登陆后的一些访问以及控制的权限。谈到权限的控制机制，目前使用的有Session，Token，JWT（JSON Web Token），oauth2.0等等。 (1) Session对比起 Cookie，Session 是存储在服务器端的会话，相对安全，并且不像 Cookie 那样有存储长度限制，由于 Session 是以文本文件形式存储在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈登陆机制-JWT-oauth2.0">
+<meta property="og:url" content="http://yoursite.com/2022/05/04/talk-shallowly-login/index.html">
+<meta property="og:site_name" content="大冰">
+<meta property="og:description" content="权限的控制机制说到了登陆，那么我们会联想到权限的控制，决定用户登陆后的一些访问以及控制的权限。谈到权限的控制机制，目前使用的有Session，Token，JWT（JSON Web Token），oauth2.0等等。 (1) Session对比起 Cookie，Session 是存储在服务器端的会话，相对安全，并且不像 Cookie 那样有存储长度限制，由于 Session 是以文本文件形式存储在">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2022/05/04/talk-shallowly-login/session-login.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/04/talk-shallowly-login/session-login-redis.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/04/talk-shallowly-login/token-login-redis.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/04/talk-shallowly-login/pwd-add-salt.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/04/talk-shallowly-login/jwt-io.png">
+<meta property="og:image" content="http://yoursite.com/2022/05/04/talk-shallowly-login/jwt-base64-decode.png">
+<meta property="og:updated_time" content="2022-05-04T15:35:12.692Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈登陆机制-JWT-oauth2.0">
+<meta name="twitter:description" content="权限的控制机制说到了登陆，那么我们会联想到权限的控制，决定用户登陆后的一些访问以及控制的权限。谈到权限的控制机制，目前使用的有Session，Token，JWT（JSON Web Token），oauth2.0等等。 (1) Session对比起 Cookie，Session 是存储在服务器端的会话，相对安全，并且不像 Cookie 那样有存储长度限制，由于 Session 是以文本文件形式存储在">
+<meta name="twitter:image" content="http://yoursite.com/2022/05/04/talk-shallowly-login/session-login.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2022/05/04/talk-shallowly-login/">
+
+
+
+
+
+  <title>浅谈登陆机制-JWT-oauth2.0 | 大冰</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">大冰</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">可乐要加冰 | 前端要走心</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            目录
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            个人简历
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/05/04/talk-shallowly-login/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiabing Yu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="大冰">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">浅谈登陆机制-JWT-oauth2.0</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-05-04T21:07:35+08:00">
+                2022-05-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="权限的控制机制"><a href="#权限的控制机制" class="headerlink" title="权限的控制机制"></a>权限的控制机制</h2><p>说到了登陆，那么我们会联想到权限的控制，决定用户登陆后的一些访问以及控制的权限。谈到权限的控制机制，目前使用的有<code>Session</code>，<code>Token</code>，<code>JWT（JSON Web Token）</code>，<code>oauth2.0</code>等等。</p>
+<h3 id="1-Session"><a href="#1-Session" class="headerlink" title="(1) Session"></a>(1) Session</h3><p>对比起 <code>Cookie</code>，<code>Session</code> 是存储在服务器端的会话，相对安全，并且不像 <code>Cookie</code> 那样有存储长度限制，由于 <code>Session</code> 是以文本文件形式存储在服务器端的，所以不怕客户端修改 <code>Session</code> 内容。</p>
+<p>通过session认证登陆的一个流程：</p>
+<ol>
+<li>用户向服务器发送账户和密码。</li>
+<li>服务器验证通过后，在当前对话（session）里保存相关数据，比如用户角色、登录时间等等。</li>
+<li>服务器向用户返回一个session_id, 写入用户的Cookie。</li>
+<li>随后，用户的每次请求，都会通过Cookie的session_id传回服务器。</li>
+<li>服务器收到session_id后，查询之前保存的数据，就可得知用户的身份与权限。</li>
+</ol>
+<p>在单体应用下，这种认证登陆以及权限的控制方式，基本没什么问题。</p>
+<p>而在集群服务，也就是部署到多台服务器的状况下，使用<code>Session</code>进行登录后的权限控制流程大概如下：</p>
+<p><img src="/2022/05/04/talk-shallowly-login/session-login.png" alt="session-login"></p>
+<p>在分布式架构的情况下，几台服务器的session是无法共享的，所以采用了复制<code>session</code>信息的方法，复制到另外几台的服务器上。这种方法会造成服务器的资源压力很大。也是一种缺陷。</p>
+<p>为了解决<code>session</code>共享的问题，可以借用<code>Redis</code>持久化缓存,通过<code>Redis</code>集中的存储<code>session</code>信息。 流程如下：</p>
+<p><img src="/2022/05/04/talk-shallowly-login/session-login-redis.png" alt="session-login-redis"></p>
+<h3 id="2-Token"><a href="#2-Token" class="headerlink" title="(2) Token"></a>(2) Token</h3><p>在集群服务的情况下，我们还可以使用<code>Token</code>的形式，也就是服务器无状态的情况下，把服务器生成的<code>Token</code>存放在<code>Redis</code>中。<code>Redis</code>的数据结构是<code>key</code> 与 <code>value</code> 的形式，而此时的key可以存放<code>Token</code>，而<code>Value</code>可以存放用户登录后的<code>UserId</code>。而这个<code>key</code>和<code>value</code>如何存储还是取决于你自己设计。 </p>
+<p>下面是采用<code>Token</code>进行登录权限控制的流程：</p>
+<p><img src="/2022/05/04/talk-shallowly-login/token-login-redis.png" alt="token-login-redis"></p>
+<p>关于密码在登录的过程，还可以采用MD5进行加密然后再进行加盐，可以确保它的安全性。</p>
+<p><img src="/2022/05/04/talk-shallowly-login/pwd-add-salt.png" alt="pwd-add-salt"></p>
+<p>不过每次都需要通过<code>token</code>去查询用户的身份，对服务器的压力也是非常大的。</p>
+<h3 id="3-JWT"><a href="#3-JWT" class="headerlink" title="(3) JWT"></a>(3) JWT</h3><p><code>JSON Web Token (JWT)</code> 是一个开放标准 ( <a href="https://datatracker.ietf.org/doc/html/rfc7519" target="_blank" rel="noopener">RFC 7519</a> )，它用于在各方之间以 <code>JSON</code> 对象的形式安全传输信息。此信息可以验证和信任，因为它是数字签名的。<code>JWT</code> 可以使用密钥（使用<code>HMAC</code>算法）或使用<code>RSA</code>或<code>ECDSA</code>的公钥/私钥对进行签名。</p>
+<p>JWT的主要组成部分：</p>
+<ol>
+<li>Header 头部</li>
+<li>Payload 有效负载</li>
+<li>Signature 验证签名</li>
+</ol>
+<h4 id="1-Header-存放的数据"><a href="#1-Header-存放的数据" class="headerlink" title="1. Header 存放的数据"></a>1. Header 存放的数据</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "alg": "HS256", // 加密的算法</span><br><span class="line">  "typ": "JWT"    // jwt类型</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-Payload-装载的数据"><a href="#2-Payload-装载的数据" class="headerlink" title="2. Payload 装载的数据"></a>2. Payload 装载的数据</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"sub"</span>: <span class="string">"1234567890"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"Jobin"</span>,</span><br><span class="line">  <span class="attr">"admin"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-Signature-验证签名数据"><a href="#3-Signature-验证签名数据" class="headerlink" title="3. Signature 验证签名数据"></a>3. Signature 验证签名数据</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HMACSHA256(</span><br><span class="line">  base64UrlEncode(header) + <span class="string">"."</span> +</span><br><span class="line">  base64UrlEncode(payload),</span><br><span class="line">  your<span class="number">-256</span>-bit-secret</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h4 id="4-JWT底层结构原理"><a href="#4-JWT底层结构原理" class="headerlink" title="4. JWT底层结构原理"></a>4. JWT底层结构原理</h4><p>通常我们看到的JWT是这样子的，如：<code>xxxxxxx.yyyyyyyy.zzzzz</code><br>它们是三个用点分隔的 <code>Base64-URL</code> 字符串，可以在 <code>HTML</code> 和 <code>HTTP</code> 环境中轻松传递，同时与基于 <code>XML</code> 的标准（如 <code>SAML</code>）相比更相似。<br>该 <code>JWT</code> 具有先前的<code>header</code>(头部)和<code>Payload</code>(有效负载编码)，并使用<code>Signature</code>(秘钥签名)。<br>也就是把上面的<code>xxxxxxx.yyyyyyyy.zzzzz</code> 相等于 <code>header.payload.signature</code></p>
+<p><code>JWT</code>的数据是通过<code>Base64</code>进行编码和解码的，所以我们可以把一条<code>JWT</code>的数据去解码一下，看是否与之前的数据一致。</p>
+<p>我们去<code>JWT</code>官方拿取<code>Payload</code>的数据去进行解码以及编码试试，可以从图中看出，就是一致的。也可以得出<code>JWT</code>的数据顺序。<strong>在JWT中的Payload数据是无法被篡改的，所以有一定的安全性。</strong><br><img src="/2022/05/04/talk-shallowly-login/jwt-io.png" alt="jwt-io"></p>
+<p><code>Payload</code>的<code>JWT</code>数据解码后：</p>
+<p><img src="/2022/05/04/talk-shallowly-login/jwt-base64-decode.png" alt="jwt-base64-decode"></p>
+<h4 id="5-JWT的优缺点"><a href="#5-JWT的优缺点" class="headerlink" title="5. JWT的优缺点"></a>5. JWT的优缺点</h4><p>优点：</p>
+<ol>
+<li>不需要在服务器存放用户的数据，减轻服务器端压力</li>
+<li>是<code>JSON</code>风格，轻量级</li>
+<li>可跨语言</li>
+</ol>
+<p>缺点：</p>
+<p>由于<code>JWT</code>生成之后是存放在<code>客户端（浏览器）</code>下的，当<code>Token</code>生成之无法修改：</p>
+<ol>
+<li>无法刷新<code>token</code>有效期 </li>
+<li>无法销毁<code>token</code></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/04/28/vue3-jest-daily/" rel="next" title="vue3-jest-daily">
+                <i class="fa fa-chevron-left"></i> vue3-jest-daily
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Jiabing Yu">
+            
+              <p class="site-author-name" itemprop="name">Jiabing Yu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#权限的控制机制"><span class="nav-number">1.</span> <span class="nav-text">权限的控制机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Session"><span class="nav-number">1.1.</span> <span class="nav-text">(1) Session</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Token"><span class="nav-number">1.2.</span> <span class="nav-text">(2) Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JWT"><span class="nav-number">1.3.</span> <span class="nav-text">(3) JWT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Header-存放的数据"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. Header 存放的数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Payload-装载的数据"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. Payload 装载的数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Signature-验证签名数据"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. Signature 验证签名数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-JWT底层结构原理"><span class="nav-number">1.3.4.</span> <span class="nav-text">4. JWT底层结构原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-JWT的优缺点"><span class="nav-number">1.3.5.</span> <span class="nav-text">5. JWT的优缺点</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiabing Yu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
