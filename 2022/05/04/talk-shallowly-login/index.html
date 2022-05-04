@@ -92,7 +92,7 @@
 <meta property="og:image" content="http://yoursite.com/2022/05/04/talk-shallowly-login/pwd-add-salt.png">
 <meta property="og:image" content="http://yoursite.com/2022/05/04/talk-shallowly-login/jwt-io.png">
 <meta property="og:image" content="http://yoursite.com/2022/05/04/talk-shallowly-login/jwt-base64-decode.png">
-<meta property="og:updated_time" content="2022-05-04T15:35:12.692Z">
+<meta property="og:updated_time" content="2022-05-04T15:38:30.424Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈登陆机制-JWT-oauth2.0">
 <meta name="twitter:description" content="权限的控制机制说到了登陆，那么我们会联想到权限的控制，决定用户登陆后的一些访问以及控制的权限。谈到权限的控制机制，目前使用的有Session，Token，JWT（JSON Web Token），oauth2.0等等。 (1) Session对比起 Cookie，Session 是存储在服务器端的会话，相对安全，并且不像 Cookie 那样有存储长度限制，由于 Session 是以文本文件形式存储在">
@@ -318,7 +318,7 @@
       
         <h2 id="权限的控制机制"><a href="#权限的控制机制" class="headerlink" title="权限的控制机制"></a>权限的控制机制</h2><p>说到了登陆，那么我们会联想到权限的控制，决定用户登陆后的一些访问以及控制的权限。谈到权限的控制机制，目前使用的有<code>Session</code>，<code>Token</code>，<code>JWT（JSON Web Token）</code>，<code>oauth2.0</code>等等。</p>
 <h3 id="1-Session"><a href="#1-Session" class="headerlink" title="(1) Session"></a>(1) Session</h3><p>对比起 <code>Cookie</code>，<code>Session</code> 是存储在服务器端的会话，相对安全，并且不像 <code>Cookie</code> 那样有存储长度限制，由于 <code>Session</code> 是以文本文件形式存储在服务器端的，所以不怕客户端修改 <code>Session</code> 内容。</p>
-<p>通过session认证登陆的一个流程：</p>
+<p>通过session认证登陆的一个流程：<br><a id="more"></a></p>
 <ol>
 <li>用户向服务器发送账户和密码。</li>
 <li>服务器验证通过后，在当前对话（session）里保存相关数据，比如用户角色、登录时间等等。</li>
